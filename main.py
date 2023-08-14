@@ -6,8 +6,9 @@
 # Dimensoes 
 # 1 - UF
 # 2 - Município
-# 3 - Instituição
+# 3 - Instituição / IES
 # 4 - Modalidade de ensino
 # 5 - Curso
+# 6 - Ano
 
 # Criar dimensões e tabela fato
