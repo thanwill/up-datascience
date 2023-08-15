@@ -4,9 +4,12 @@ use dw_inep;
 # Criação das tabelas dimensão
 
 create Table dim_uf (
-    tf_curso bigint,
-    uf varchar(2)
+    tf_uf bigint,
+    uf varchar(100)
 );
+
+# altera o nome do tf_curso para tf_uf
+alter table dim_uf change tf_curso tf_uf bigint;
 
 create Table dim_municipio (
     tf_municipio bigint,
@@ -43,3 +46,7 @@ create table if not exists fact_matricula (
     qtd_alunos bigint
 );
 
+SHOW TABLES;
+SELECT * FROM dim_uf;
+
+SELECT * FROM dim_uf;

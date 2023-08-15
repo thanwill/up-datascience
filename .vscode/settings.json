@@ -1,0 +1,8 @@
+{
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    //"python.formatting.provider": "none"
+    // configura o pacote para formatar o código com o black
+    "python.formatting.provider": "black"
+}
