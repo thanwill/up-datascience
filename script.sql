@@ -1,3 +1,4 @@
+-- Active: 1692292794645@@127.0.0.1@3306
 create database dw_inep;
 use dw_inep;
 
@@ -7,9 +8,6 @@ create Table dim_uf (
     tf_uf bigint,
     uf varchar(100)
 );
-
-# altera o nome do tf_curso para tf_uf
-alter table dim_uf change tf_curso tf_uf bigint;
 
 create Table dim_municipio (
     tf_municipio bigint,
@@ -33,9 +31,8 @@ create Table dim_curso (
 
 create table dim_ano (
     tf_ano bigint,
-    ano varchar(4) ,
+    ano varchar(4) 
 );
-
 create table if not exists fact_matricula (
     tf_ano bigint,
     tf_curso bigint,
@@ -45,7 +42,6 @@ create table if not exists fact_matricula (
     tf_modalidade bigint,
     qtd_alunos bigint
 );
-
 SHOW TABLES;
 SELECT * FROM dim_uf;
 
