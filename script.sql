@@ -1,8 +1,6 @@
--- Active: 1692292794645@@127.0.0.1@3306
+-- Active: 1693166335377@@127.0.0.1@3306
 create database dw_inep;
 use dw_inep;
-
-# Criação das tabelas dimensão
 
 create Table dim_uf (
     tf_uf bigint,
@@ -27,13 +25,12 @@ create table dim_modalidade (
 create Table dim_curso (
     tf_curso bigint,
     curso varchar(100)
-);
-
+) ;
 create table dim_ano (
     tf_ano bigint,
     ano varchar(4) 
-);
-create table if not exists fact_matricula (
+) ;
+CREATE TABLE fact_matricula (
     tf_ano bigint,
     tf_curso bigint,
     tf_uf bigint,
@@ -42,7 +39,14 @@ create table if not exists fact_matricula (
     tf_modalidade bigint,
     qtd_alunos bigint
 );
-SHOW TABLES;
-SELECT * FROM dim_uf;
 
+INSERT INTO fact_matricula (matriculas, tf_municipio, tf_uf)
+
+SELECT * FROM 
+( SELECT 100 as matriculas ) as fact_matricula, 
+( select tf_municipio from dim_municipio WHERE municipio = 'Curitiba') as tf_municipio,
+( select tf_uf from dim_uf WHERE uf = 'Paraná') as tf_uf;
+
+SELECT * FROM dim_municipio;
 SELECT * FROM dim_uf;
+SELECT * FROM fact_matricula;

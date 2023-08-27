@@ -3,14 +3,16 @@
 # Data: 2023-08-14
 # Versão: 0.0.1
 
-import mysql.connector
-# Importar bibliotecas para abrir a janela de diálogo para selecionar o arquivo CSV
-import tkinter as tk
-from tkinter import filedialog
+import mysql.connector # Biblioteca para conectar ao banco de dados
+import tkinter as tk # Biblioteca para criar janelas
+from tkinter import filedialog # Biblioteca para abrir janela de diálogo
+import pandas as pd  # Biblioteca para trabalhar com dataframes
 
+# Comando para instlar todas as bibliotecas: pip install mysql-connector-python tk pandas
 # Crie uma janela em branco (não é exibida)
 root = tk.Tk()
 root.withdraw()
+
 
 # Janela de diálogo para selecionar o arquivo CSV
 file_path = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
@@ -21,11 +23,6 @@ if file_path:
 else:
     print("Nenhum arquivo selecionado.")
 
-# Importar bibliotecas
-
-import pandas as pd
-
-
 # Dictionary com as informações de conexão
 
 config = {
@@ -34,11 +31,17 @@ config = {
     "host" : 'localhost',
     "database" : 'dw_inep'
 }
-    
-# Conectar ao banco de dados
 
+config2 = {
+    "user" : "root",
+    "password" : "atzmkl712",
+    "host" : 'localhost',
+    "database" : 'dw_inep'
+}
+
+# Conectar ao banco de dados
 try:
-    conn = mysql.connector.connect(**config)
+    conn = mysql.connector.connect(**config2) 
     print("Conexao ao banco de dados realizada com sucesso!")
         
     dados = pd.read_csv(file_path, sep=';', encoding='iso-8859-1', dtype=str, low_memory=False)
