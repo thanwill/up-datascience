@@ -1,4 +1,4 @@
--- Active: 1693166335377@@127.0.0.1@3306
+-- Active: 1693260753838@@127.0.0.1@3306
 create database dw_inep;
 use dw_inep;
 
@@ -24,8 +24,10 @@ create table dim_modalidade (
 
 create Table dim_curso (
     tf_curso bigint,
-    curso varchar(100)
+    curso varchar(200)
 ) ;
+
+
 create table dim_ano (
     tf_ano bigint,
     ano varchar(4) 
