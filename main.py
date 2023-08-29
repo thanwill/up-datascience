@@ -11,15 +11,22 @@ import pandas as pd  # Biblioteca para trabalhar com dataframes
 # Comando para instlar todas as bibliotecas: pip install mysql-connector-python tk pandas
 # Crie uma janela em branco (não é exibida)
 root = tk.Tk()
-root.withdraw()
+#root.withdraw()
 
 
 # Janela de diálogo para selecionar o arquivo CSV
-file_path = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
+# file_path = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
 
+# Cria uma variavel para armazenar o arquivo das IES
+#root.withdraw()
+# file_ies_path = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
+file_path ='C:/Users/Aluno/Documents/microdados_censo_da_educacao_superior_2020/Microdados do Censo da Educação Superior 2020/dados/MICRODADOS_CADASTRO_CURSOS_2020.CSV'
+file_ies_path = 'C:/Users/Aluno/Documents/microdados_censo_da_educacao_superior_2020/Microdados do Censo da Educação Superior 2020/dados/MICRODADOS_CADASTRO_IES_2020.CSV'
 # Verifica se o usuário selecionou um arquivo
 if file_path:
     print("Arquivo selecionado:", file_path)
+    print("Arquivo IES selecionado:", file_ies_path)
+    
 else:
     print("Nenhum arquivo selecionado.")
 
@@ -38,7 +45,32 @@ try:
     print("Conexao ao banco de dados realizada com sucesso!")
         
     dados = pd.read_csv(file_path, sep=';', encoding='iso-8859-1', dtype=str, low_memory=False)
+    dados_ies = pd.read_csv(file_ies_path, sep=';', encoding='iso-8859-1', dtype=str, low_memory=False)
     cursor = conn.cursor() # Criando cursor para executar o comando SQL
+
+    # IES: será necessario realizar uma busca no banco de dados verificar a relacao
+
+    dados_ies = dados_ies[['CO_IES', 'NO_IES']]
+    dados_ies = dados_ies.drop_duplicates(subset=['CO_IES'])
+
+
+    # realiza um truncate na tabela dim_ies
+    truncate_statement = "TRUNCATE TABLE dim_ies"
+    cursor.execute(truncate_statement) # Executando o comando SQL
+    conn.commit()
+
+
+    for i,r in dados_ies.iterrows():
+        row_dados_ies = dados_ies[dados['CO_IES'] == r['CO_IES']]
+        # insere os dados de ies na tabela dim_ies
+        # print(row_dados_ies)
+        no_ies = row_dados_ies['NO_IES'].iloc[0].replace("'", "")
+        insert_statement = f"INSERT INTO dim_ies (tf_ies, ies) VALUES ({i}, '{no_ies}')"
+        cursor.execute(insert_statement)
+        conn.commit()
+
+
+    print("Dados de IES inseridos com sucesso!")
 
     # Ano 
     dados_ano = pd.DataFrame(dados['NU_ANO_CENSO'].unique(), columns=['ANO']) # Converte para dataframe
@@ -71,23 +103,6 @@ try:
         cursor.execute(insert_statement)
         conn.commit()
     print("Dados de Curso inseridos com sucesso!")
-
-    # IES
-    dados_ies = pd.DataFrame(dados['NO_IES'].unique(), columns=['IES']) # Converte para dataframe
-    dados_ies['IES'].fillna('Não informado', inplace=True) # alterar nan para não informado
-
-    # realiza um truncate na tabela dim_ies
-    truncate_statement = "TRUNCATE TABLE dim_ies"
-    cursor.execute(truncate_statement) # Executando o comando SQL
-    conn.commit()
-
-    # Insere os dados de ies
-    for i, r in dados_ies.iterrows(): # Iterando sobre o dataframe dados_uf e acessando o indice e a linha
-        insert_statement = f"INSERT INTO dim_ies (tf_ies, ies) VALUES ({i}, '{r['IES']}')"
-        cursor.execute(insert_statement)
-        conn.commit()
-    print("Dados de IES inseridos com sucesso!")
-
 
     # UF
     dados_uf = pd.DataFrame(dados['NO_UF'].unique(), columns=['UF']) # Converte para dataframe
@@ -152,8 +167,19 @@ try:
 
     print("Dados de Modalidade inseridos com sucesso!")
 
-    cursor.close() # Fechar o cursor
+    
+        
 
+    # Construção da tabela fact_mastricula
+    truncate_statement = "TRUNCATE TABLE fact_matricula"
+    cursor.execute(truncate_statement) # Executando o comando SQL
+    conn.commit()
+
+    # Ano, Curso, IES, UF, Municipio, Modalidade, Quantidade de estudantes
+
+    print("concluído")
+
+    cursor.close() # Fechar o cursor
 
 except mysql.connector.Error as err:
     print("Erro ao conectar ao banco de dados: {}".format(err))
