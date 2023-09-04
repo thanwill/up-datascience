@@ -1,0 +1,164 @@
+{
+    "type": "MySQLNotebook",
+    "version": "1.0",
+    "caption": "DB Notebook",
+    "content": "\\about\nCREATE DATABASE IF NOT EXISTS dw_inep;\nUSE dw_inep;\n\nCREATE TABLE IF NOT EXISTS dim_uf (\n    tf_uf bigint,\n    uf varchar(100)\n);\n\nCREATE TABLE IF NOT EXISTS dim_municipio (\n    tf_municipio bigint,\n    municipio varchar(100)\n);\n\nCREATE TABLE IF NOT EXISTS dim_ies (\n    tf_ies bigint,\n    ies varchar(100)\n);\n\nCREATE TABLE IF NOT EXISTS dim_modalidade (\n    tf_modalidade bigint,\n    modalidade varchar(100)\n);\n\nCREATE TABLE IF NOT EXISTS dim_curso (\n    tf_curso bigint,\n    curso varchar(200)\n) ;\n\n\nCREATE TABLE IF NOT EXISTS dim_ano (\n    tf_ano bigint,\n    ano varchar(4) \n) ;\nCREATE TABLE IF NOT EXISTS fact_matricula (\n    tf_ano bigint,\n    tf_curso bigint,\n    tf_uf bigint,\n    tf_municipio bigint,\n    tf_ies bigint,\n    tf_modalidade bigint,\n    qtd_alunos bigint\n);",
+    "options": {
+        "tabSize": 4,
+        "indentSize": 4,
+        "insertSpaces": true,
+        "defaultEOL": "LF",
+        "trimAutoWhitespace": true
+    },
+    "viewState": {
+        "cursorState": [
+            {
+                "inSelectionMode": false,
+                "selectionStart": {
+                    "lineNumber": 43,
+                    "column": 3
+                },
+                "position": {
+                    "lineNumber": 43,
+                    "column": 3
+                }
+            }
+        ],
+        "viewState": {
+            "scrollLeft": 0,
+            "firstPosition": {
+                "lineNumber": 1,
+                "column": 1
+            },
+            "firstPositionDeltaTop": 0
+        },
+        "contributionsState": {
+            "editor.contrib.folding": {},
+            "editor.contrib.wordHighlighter": false
+        }
+    },
+    "contexts": [
+        {
+            "state": {
+                "start": 1,
+                "end": 1,
+                "language": "mysql",
+                "result": {
+                    "type": "text",
+                    "text": [
+                        {
+                            "type": 2,
+                            "content": "Welcome to the MySQL Shell - DB Notebook.\n\nPress Cmd+Enter to execute the current statement.\n\nExecute \\sql to switch to SQL, \\js to JavaScript and \\ts to TypeScript mode.\nExecute \\help or \\? for help;",
+                            "language": "ansi"
+                        }
+                    ]
+                },
+                "currentHeight": 128,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 6
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    }
+                ]
+            },
+            "data": []
+        },
+        {
+            "state": {
+                "start": 2,
+                "end": 43,
+                "language": "mysql",
+                "currentHeight": 180,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 38
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 38,
+                            "length": 13
+                        },
+                        "contentStart": 39,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 51,
+                            "length": 78
+                        },
+                        "contentStart": 53,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 129,
+                            "length": 99
+                        },
+                        "contentStart": 131,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 228,
+                            "length": 81
+                        },
+                        "contentStart": 230,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 309,
+                            "length": 102
+                        },
+                        "contentStart": 311,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 411,
+                            "length": 88
+                        },
+                        "contentStart": 413,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 499,
+                            "length": 82
+                        },
+                        "contentStart": 502,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 581,
+                            "length": 197
+                        },
+                        "contentStart": 582,
+                        "state": 0
+                    }
+                ]
+            },
+            "data": []
+        }
+    ]
+}
