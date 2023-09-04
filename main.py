@@ -176,12 +176,26 @@ try:
     truncate_statement = "TRUNCATE TABLE fact_matricula"
     cursor.execute(truncate_statement) # Executando o comando SQL
     conn.commit()
+
+    #Fact matriculas
+    for i, r in dados:
+        insert_statement = f"""insert into fact_matriculas(matriculas,tf_ano,tf_curso,tf_ies,tf_uf,tf_municipio,tf_modalidade)
+        select * from 
+        ({r['QT_INSCRITO_TOTAL']}) as matriculas,
+        (select tf_ano from dim_ano where ano = {r['NU_ANO_CENSO']}) as tf_ano,
+        (select tf_curso from dim_curso where curso = {r['NO_CURSO']}) as tf_curso,
+        (select tf_ies from dim_ies where ies = {r['CO_IES']}) as tf_ies,
+        (select tf_uf from dim_uf where uf = {r['NO_UF']}) as tf_uf,
+        (select tf_municipio from dim_municipio where municipio = {r['NO_MUNICIPIO']}) as tf_municipio,
+        (select tf_modalidade from dim_modalidade where modalidade = {r['TP_MODALIDADE_ENSINO']}) as tf_moa
+        """
+        cursor.execute(insert_statement)
+        conn.commit()
+
+    print("Dados de Matriculas inseridos com sucesso!")
+
     cursor.close() # Fechar o cursor
-
-
     print("Fim da execução!")
-
-
 
 except mysql.connector.Error as err:
     print("Erro ao conectar ao banco de dados: {}".format(err))
