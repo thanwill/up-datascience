@@ -5,70 +5,73 @@
 
 import mysql.connector # Biblioteca para conectar ao banco de dados
 import tkinter as tk # Biblioteca para criar janelas
-from tkinter import filedialog # Biblioteca para abrir janela de diálogo
 import pandas as pd  # Biblioteca para trabalhar com dataframes
+from tqdm import tqdm # Biblioteca para criar barra de progresso
+import time # Biblioteca para trabalhar com tempo
+from tkinter import filedialog # Biblioteca para abrir janela de diálogo
 
 # Comando para instlar todas as bibliotecas: pip install mysql-connector-python tk pandas
 # Crie uma janela em branco (não é exibida)
 root = tk.Tk()
-#root.withdraw()
-
 
 # Janela de diálogo para selecionar o arquivo CSV
+# root.withdraw()
 # file_path = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
 
 # Cria uma variavel para armazenar o arquivo das IES
-#root.withdraw()
+# root.withdraw()
 # file_ies_path = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
-file_path ='C:/Users/Aluno/Documents/microdados_censo_da_educacao_superior_2020/Microdados do Censo da Educação Superior 2020/dados/MICRODADOS_CADASTRO_CURSOS_2020.CSV'
-file_ies_path = 'C:/Users/Aluno/Documents/microdados_censo_da_educacao_superior_2020/Microdados do Censo da Educação Superior 2020/dados/MICRODADOS_CADASTRO_IES_2020.CSV'
+
+#file_path ='C:/Users/Aluno/Documents/microdados_censo_da_educacao_superior_2020/Microdados do Censo da Educação Superior 2020/dados/MICRODADOS_CADASTRO_CURSOS_2020.CSV'
+#file_ies_path = 'C:/Users/Aluno/Documents/microdados_censo_da_educacao_superior_2020/Microdados do Censo da Educação Superior 2020/dados/MICRODADOS_CADASTRO_IES_2020.CSV'
+
+# Caminhos no Mac
+file_path = '/Users/jonathan/Downloads/Microdados do Censo da Educaá∆o Superior 2021/dados/MICRODADOS_CADASTRO_CURSOS_2021.CSV'
+file_ies_path = '/Users/jonathan/Downloads/Microdados do Censo da Educaá∆o Superior 2021/dados/MICRODADOS_CADASTRO_IES_2021.CSV'
+
 # Verifica se o usuário selecionou um arquivo
+
 if file_path:
-    print("Arquivo selecionado:", file_path)
+    print("Arquivo de dados selecionado:", file_path)
     print("Arquivo IES selecionado:", file_ies_path)
     
 else:
     print("Nenhum arquivo selecionado.")
 
 # Dictionary com as informações de conexão
-
 config = {
     "user" : "root",
-    "password" : "positivo",
+    "password" : "atzmkl712",
     "host" : 'localhost',
     "database" : 'dw_inep'
 }
+
+
+
 
 # Conectar ao banco de dados
 try:
     conn = mysql.connector.connect(**config) 
     print("Conexao ao banco de dados realizada com sucesso!")
-        
-    dados = pd.read_csv(file_path, sep=';', encoding='iso-8859-1', dtype=str, low_memory=False)
-    dados_ies = pd.read_csv(file_ies_path, sep=';', encoding='iso-8859-1', dtype=str, low_memory=False)
     cursor = conn.cursor() # Criando cursor para executar o comando SQL
 
-    # IES: será necessario realizar uma busca no banco de dados verificar a relacao
-
-    dados_ies = dados_ies[['CO_IES', 'NO_IES']]
-    dados_ies = dados_ies.drop_duplicates(subset=['CO_IES'])
-
+    dados = pd.read_csv(file_path, sep=';', encoding='iso-8859-1', dtype=str, low_memory=False)
+    dados_IES = pd.read_csv(file_ies_path, sep=';', encoding='iso-8859-1', dtype=str, low_memory=False)
 
     # realiza um truncate na tabela dim_ies
     truncate_statement = "TRUNCATE TABLE dim_ies"
     cursor.execute(truncate_statement) # Executando o comando SQL
     conn.commit()
-
-
-    for i,r in dados_ies.iterrows():
-        row_dados_ies = dados_ies[dados['CO_IES'] == r['CO_IES']]
-        # insere os dados de ies na tabela dim_ies
-        # print(row_dados_ies)
-        no_ies = row_dados_ies['NO_IES'].iloc[0].replace("'", "")
-        insert_statement = f"INSERT INTO dim_ies (tf_ies, ies) VALUES ({i}, '{no_ies}')"
+    
+    dados_IES = dados_IES[['CO_IES','NO_IES']] # Seleciona as colunas CO_IES e NO_IES
+    dados_IES_curso = pd.DataFrame(dados['CO_IES'].unique(), columns = ['co_ies']) # Converte para dataframe e seleciona a coluna CO_IES e remove os valores duplicados
+    
+    for i, r in dados_IES_curso.iterrows(): # Iterando sobre o dataframe dados_uf e acessando o indice e a linha
+        dados_IES_filtrado=dados_IES[dados_IES['CO_IES'] == r['co_ies']] # Filtra os dados de IES
+        no_ies = dados_IES_filtrado['NO_IES'].iloc[0].replace("'","") # Seleciona o nome da IES
+        insert_statement = f"insert into dim_ies (tf_ies, ies) values({i+1}, '{no_ies}')" # Cria o comando SQL
         cursor.execute(insert_statement)
         conn.commit()
-
 
     print("Dados de IES inseridos com sucesso!")
 
@@ -83,7 +86,7 @@ try:
 
     # Insere os dados de ano
     for i, r in dados_ano.iterrows(): # Iterando sobre o dataframe dados_uf e acessando o indice e a linha
-        insert_statement = f"INSERT INTO dim_ano (tf_ano, ano) VALUES ({i}, '{r['ANO']}')"
+        insert_statement = f"INSERT INTO dim_ano (tf_ano, ano) VALUES ({i + 1}, '{r['ANO']}')"
         cursor.execute(insert_statement)
         conn.commit()
     print("Dados de Ano inseridos com sucesso!")
@@ -99,7 +102,7 @@ try:
 
     # Insere os dados de curso
     for i, r in dados_curso.iterrows(): # Iterando sobre o dataframe dados_uf e acessando o indice e a linha
-        insert_statement = f"INSERT INTO dim_curso (tf_curso, curso) VALUES ({i}, '{r['CURSO']}')"
+        insert_statement = f"INSERT INTO dim_curso (tf_curso, curso) VALUES ({i + 1}, '{r['CURSO']}')"
         cursor.execute(insert_statement)
         conn.commit()
     print("Dados de Curso inseridos com sucesso!")
@@ -115,7 +118,7 @@ try:
 
     # UF
     for i, r in dados_uf.iterrows(): # Iterando sobre o dataframe dados_uf e acessando o indice e a linha
-        insert_statement = f"INSERT INTO dim_uf (tf_uf, uf) VALUES ({i}, '{r['UF']}')"
+        insert_statement = f"INSERT INTO dim_uf (tf_uf, uf) VALUES ({i + 1}, '{r['UF']}')"
         cursor.execute(insert_statement) # Executando o comando SQL
         conn.commit()
 
@@ -132,7 +135,7 @@ try:
     # Municipio
     for i, r in dados_municipio.iterrows(): # Iterando sobre o dataframe dados_uf e acessando o indice e a linha
         insert_statement = "INSERT INTO dim_municipio (tf_municipio, municipio) VALUES (%s, %s)"
-        values = (i, r['MUNICIPIO'])
+        values = (i + 1, r['MUNICIPIO'])
         cursor.execute(insert_statement, values) # Executando o comando SQL
         conn.commit()
 
@@ -152,15 +155,15 @@ try:
     for i, r in dados_modalidade.iterrows(): # Iterando sobre o dataframe dados_uf e acessando o indice e a linha
         if r["MODALIDADE"] == '1':
             insert_statement = "INSERT INTO dim_modalidade (tf_modalidade, modalidade) VALUES (%s, %s)"
-            values = (i, 'Presencial')
+            values = (i +1 , 'Presencial')
            
         elif r["MODALIDADE"] == '2':
             insert_statement = "INSERT INTO dim_modalidade (tf_modalidade, modalidade) VALUES (%s, %s)"
-            values = (i, 'Curso a distância')
+            values = (i + 1, 'Curso a distância')
         else:
             # insere o valor 0 para os valores NaN
             insert_statement = "INSERT INTO dim_modalidade (tf_modalidade, modalidade) VALUES (%s, %s)"
-            values = (i, 'Não informado')
+            values = (i +1, 'Não informado')
             
         cursor.execute(insert_statement, values)
         conn.commit()
@@ -168,18 +171,17 @@ try:
     print("Dados de Modalidade inseridos com sucesso!")
 
     
-        
-
+    
     # Construção da tabela fact_mastricula
     truncate_statement = "TRUNCATE TABLE fact_matricula"
     cursor.execute(truncate_statement) # Executando o comando SQL
     conn.commit()
-
-    # Ano, Curso, IES, UF, Municipio, Modalidade, Quantidade de estudantes
-
-    print("concluído")
-
     cursor.close() # Fechar o cursor
+
+
+    print("Fim da execução!")
+
+
 
 except mysql.connector.Error as err:
     print("Erro ao conectar ao banco de dados: {}".format(err))
