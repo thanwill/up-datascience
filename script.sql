@@ -1,5 +1,6 @@
 -- Active: 1693166335377@@127.0.0.1@3306@dw_inep
 CREATE DATABASE IF NOT EXISTS dw_inep;
+
 USE dw_inep;
 
 CREATE TABLE IF NOT EXISTS dim_uf (
