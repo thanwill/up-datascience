@@ -102,7 +102,7 @@ try:
         tf_uf_select_statement= f"select tf_uf from dim_uf where uf ='{r['NO_UF']}'" if r['NO_UF'] else "select Null from dim_uf"
         tf_municipio_select_statement= f"select tf_municipio from dim_municipio where municipio = '{r['NO_MUNICIPIO']}'" if r['NO_MUNICIPIO'] else "select Null from dim_municipio"
 
-        dados_IES_filtrado=dados_IES[dados_IES['CO_IES'] == r['CO_IES']]
+        dados_IES_filtrado= dados_IES[dados_IES['CO_IES'] == r['CO_IES']]
         no_ies = dados_IES_filtrado['NO_IES'].iloc[0].replace("'","")
 
         insert_statement = f"""insert into fact_matriculas(matriculas,tf_ano,tf_curso,tf_ies,tf_uf,tf_municipio,tf_modalidade)
