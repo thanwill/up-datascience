@@ -52,4 +52,7 @@ SELECT * FROM
 
 SELECT * FROM dim_municipio;
 SELECT * FROM dim_uf;
+
 SELECT * FROM fact_matricula;
+
+
