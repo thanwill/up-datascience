@@ -40,7 +40,11 @@ python main.py
 
 5. O código processará os dados e imprimirá as informações relevantes no console.
    
-![image](https://github.com/thanwill/python-datascience/assets/62673590/7f6e6c1d-dca9-4f54-aaa6-eb8d443119d6)
+
+
+https://github.com/thanwill/python-datascience/assets/62673590/81bbd4c7-64cc-4bbc-91fc-e66017943a31
+
+
 
 Lembre-se de que você também precisará configurar as informações de conexão ao banco de dados MySQL no arquivo `main.py` no dicionário `config`:
 
