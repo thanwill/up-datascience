@@ -40,19 +40,5 @@ CREATE TABLE IF NOT EXISTS fact_matricula (
     tf_municipio bigint,
     tf_ies bigint,
     tf_modalidade bigint,
-    qtd_alunos bigint
+    matriculados bigint
 );
-
-INSERT INTO fact_matricula (matriculas, tf_municipio, tf_uf)
-
-SELECT * FROM 
-( SELECT 100 as matriculas ) as fact_matricula, 
-( select tf_municipio from dim_municipio WHERE municipio = 'Curitiba') as tf_municipio,
-( select tf_uf from dim_uf WHERE uf = 'Paraná') as tf_uf;
-
-SELECT * FROM dim_municipio;
-SELECT * FROM dim_uf;
-
-SELECT * FROM fact_matricula;
-
-
