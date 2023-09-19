@@ -2,7 +2,6 @@ import random # biblioteca para gerar numeros aleatorios
 import statistics # biblioteca para calcular media, mediana, etc
 import numpy as np # biblioteca para trabalhar com vetores e matrizes
 import matplotlib.pyplot as plt
-import seaborn as sns
 from scipy.stats import norm
 
 # pip install scipy matplotlib numpy statistics
@@ -20,12 +19,6 @@ print("Mediana: ", np.median(serie))
 print("Desvio padrao: ", np.std(serie))
 print("Variancia: ", np.var(serie))
 
-sns.set_style('darkgrid')
-sns.distplot(serie, bins=20, kde=True, color='blue')
-plt.title('Histograma')
-plt.xlabel('Valores')
-plt.ylabel('Frequencia')
-plt.show()
 
 # Crie um intervalo de valores para o eixo x
 x = np.linspace(min(serie), max(serie), 100)
@@ -39,5 +32,20 @@ plt.hist(serie, density=True, alpha=0.5, color='green', bins=20, edgecolor='k', 
 plt.xlabel('Valores')
 plt.ylabel('Densidade de Probabilidade')
 plt.title('Diagrama de Distribuição Normal')
+plt.show()
+
+# gráfico de controle   
+plt.plot(serie, color='blue', label='Dados Observados')
+plt.axhline(media, color='red', label='Media')
+plt.axhline(media + 3*desvio_padrao, color='green', label='Limite Superior')
+plt.axhline(media - 3*desvio_padrao, color='green', label='Limite Inferior')
+plt.xlabel('Amostras')
+plt.ylabel('Valores')
+plt.title('Gráfico de Controle')
 plt.legend()
 plt.show()
+
+
+
+
+
