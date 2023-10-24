@@ -1,9 +1,0 @@
-{
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.python"
-    },
-    //"python.formatting.provider": "none"
-    // configura o pacote para formatar o código com o black
-    "python.formatting.provider": "black",
-    "python.analysis.typeCheckingMode": "basic"
-}
