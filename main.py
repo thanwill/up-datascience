@@ -1,29 +1,21 @@
-from tkinter import *
-from tkinter import filedialog
-from tkinter import messagebox
-
 import pandas as pd
-import numpy as np
 
-file = 'C:/Users/Aluno/Downloads/Vendas.csv'
+windowsPath = 'C:/Users/Aluno/Downloads/Vendas.csv'
+macPath = '/Users/jonathan/Downloads/Vendas.csv'
 
 try:
-    serie = pd.read_csv(file, sep=';', encoding='latin1', usecols=['Vendas'])
-    # Limpe a coluna 'Vendas (em unidades monetárias)' removendo vírgulas e convertendo para numérico
-    serie['Vendas'] = serie['Vendas'].str.replace(',', '.').astype(float)
-
+    # Carregue o arquivo CSV em um DataFrame
+    data = pd.read_csv(macPath, sep=';', encoding='ISO-8859-1')
+     
+    # Substitua vírgulas por nada para remover separadores de milhares
+    data['vendas'] = data['vendas'].str.replace(',', '').astype(float)
     
-    # calcula a média das vendas ao longo dos 4 anos  (2024, 2025, 2026, 2027)
-    media = serie['Vendas'].mean()
-    media = round(media, 2)
-    print('Média', media)
+    media_vendas = data['vendas'].mean() # Calcule a média das vendas
+    media_vendas = round(media_vendas, 2) # Arredonde o valor para duas casas decimais
+    mediana_vendas = data['vendas'].median() # Calcule a mediana das vendas
 
-   
+    print('Média de vendas:', media_vendas) # Imprima o valor da média
+    print('Mediana de vendas:', mediana_vendas) # Imprima o valor da mediana
 
 except Exception as e:
-    print(f"Um erro ocorreu: {e}")
-
-
-
-
-
+    print(f"Um erro ocorreu: {e}") # Imprima uma mensagem de erro genérica
