@@ -57,9 +57,59 @@ try:
     # exibe o dataframe com as novas colunas e o mes ordenado
     df = df.sort_values(by=['mes'])
 
+    # exibe as linhas do dataframe para o mês com a maior venda e o mês com a menor venda e exporta para um arquivo html
+    # print(df[df['vendas'] == df['vendas'].max()])
+    # print(df[df['vendas'] == df['vendas'].min()])
+
+    # Divida os dados de vendas em três quartis
+    primeiro_quartil = data['vendas'].quantile(0.25)
+    segundo_quartil = data['vendas'].quantile(0.50)
+    terceiro_quartil = data['vendas'].quantile(0.75)
+
+    # Divida os dados de vendas em três quartis
+    primeiro_quartil = data['vendas'].quantile(0.25)
+    segundo_quartil = data['vendas'].quantile(0.50)
+    terceiro_quartil = data['vendas'].quantile(0.75)
+
+    # Imprima os valores dos quartis
+    print('Primeiro quartil:', primeiro_quartil)
+    print('Segundo quartil:', segundo_quartil)
+    print('Terceiro quartil:', terceiro_quartil)
+
+    # Calcule os intervalos interquartil (Quadrantes) para as vendas 
+    iqr = terceiro_quartil - primeiro_quartil
+
+    # plota um grático de Diagrama de extremos e quartis (Boxplot) exibindo os dados de vendas, o primeiro quartil, o segundo quartil e o terceiro quartil e o max e min 
+    plt.boxplot(data['vendas'], showmeans=True)
+    plt.axhline(primeiro_quartil, color='grey', linestyle='--')
+    plt.axhline(segundo_quartil, color='grey', linestyle='--')
+    plt.axhline(terceiro_quartil, color='grey', linestyle='--')
+    plt.title('Quartis de vendas')
+    plt.show()
 
 
+
+
+    # Calcule os limites inferior e superior
+    limite_inferior = primeiro_quartil - (1.5 * iqr)
+    limite_superior = terceiro_quartil + (1.5 * iqr)
+
+    # cria uma legenda para o gráfico
+    plt.legend(['Vendas', 'Limite inferior', 'Limite superior'])
     
+    # plota um gráfico com os limites inferior e superior e os dados de venda
+    plt.plot(df['mes'], df['vendas'])
+    plt.axhline(limite_inferior, color='red', linestyle='--')
+    plt.axhline(limite_superior, color='blue', linestyle='--')
+    plt.title('Vendas')
+
+
+    plt.show()
+
+
+
+
+
 
     # exporta o dataframe para um arquivo csv
     df.to_csv('vendas_tratamento.csv', index=False)
