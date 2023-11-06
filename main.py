@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 import pickle 
+from pickle import load
 # importa o normalizador pip install scikit_learn
 
 file = 'C:/Users/Aluno/Downloads/dados_normalizar.csv'
@@ -30,9 +31,7 @@ try:
     # normaliza os dados
     serie_normalizada = (serie_numerica - serie_numerica.min()) / (serie_numerica.max() - serie_numerica.min())
     # normaliza os dados categorias sexo
-    serie_categorica_normalizada = pd.get_dummies(data = serie_categorica, prefix_sep='_') # argumentos: dados, separador de prefixo
-
-    # sklearn
+    serie_categorica_normalizada = pd.get_dummies(data = serie_categorica, prefix_sep='_') # argumentos: dados, separador de prefix
     
     normalizador = MinMaxScaler() # cria o objeto normalizador
     modelo = normalizador.fit(serie_numerica) # treina o modelo com os dados
@@ -45,12 +44,7 @@ try:
     dados_normalizados['sexo_M'] = serie_categorica_normalizada['sexo_M'] # adiciona a coluna sexo_M
 
     # salvar o normalizador para uso posteriror
-    
-    pickle.dump(modelo, open('normalizador.pkl', 'wb')) # salva o modelo no arquivo normalizador.pkl (wb = write binary)
-
-    # normaliza os dados de uma nova instância desconhecida (não vista pelo modelo)
-
-    from pickle import load
+    pickle.dump(modelo, open('normalizador.pkl', 'wb')) # salva o modelo no arquivo normalizador.pkl (wb = write binary)   
 
     # carrega o normalizador
     normalizador = load(open('normalizador.pkl', 'rb')) # rb = read binary
