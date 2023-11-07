@@ -20,7 +20,6 @@ try:
     # 6. Normalizar os dados de uma nova instância desconhecida (não vista pelo modelo)
     # Mensagem para o commit: Normalização de dados com MinMaxScaler e pickle 
 
-
     print('\033c') # limpa a tela
         
     serie = pd.read_csv(file, sep=';', encoding='latin1', usecols=['idade', 'altura', 'Peso', 'sexo']) # lê o arquivo csv
