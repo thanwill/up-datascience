@@ -6,27 +6,18 @@ import numpy as np
 import math
 
 try:
-    # exibe um comando cls no prompt de comando
     print('\033c') # limpa a tela
 
-    # 1. Carregue o dataset
-    fertility = pd.read_csv('C:\\Users\\Aluno\\Downloads\\fertility_Diagnosis.txt', sep=',', header=None)
+    fertility = pd.read_csv('C:\\Users\\Aluno\\Downloads\\fertility_Diagnosis.txt', sep=',', header=None) # lê o arquivo csv
 
-    # remove a ultima coluna
-    fertility.drop(fertility.columns[9], axis=1, inplace=True)
+    fertility.drop(fertility.columns[9], axis=1, inplace=True) # remove a coluna 9
 
     # numero máximo de clusters que queremos testar é o numero de linhas do dataset
     max_k = fertility.shape[0] # shape[0] retorna o numero de linhas do dataset
-
-    # lista vazia para receber as distancias
-    distortions = []
-
-    # lista vazia para receber os valores de k
-
+    distortions = [] # lista vazia para receber as distancias
     K = range(1, max_k)
 
-    # 2. Para cada valor de k, vamos calcular a soma quadrática dos erros (SSE)
-
+    # For para calcular a distância de cada ponto para o centróide mais próximo
     for k in K:
         # 2.1. Criar o modelo KMeans com o valor de k
         kmeanModel = KMeans(n_clusters=k).fit(fertility)
@@ -39,21 +30,6 @@ try:
                 np.min(
                     cdist(fertility, kmeanModel.cluster_centers_, 'euclidean'), axis=1)
                 ) / fertility.shape[0])
-        
-        
-        # cdist calcula a distância entre dois pontos (euclidean = distância euclidiana)
-        # euclidean = sqrt(sum((x - y)^2)) : é uma medida de distância entre dois pontos
-        # manhattan = sum(|x - y|) : é uma medida de distância entre dois pontos
-
-
-    # 3. Plotar o gráfico com os valores de k e as distâncias
-    # plt.plot(K, distortions)
-    # plt.xlabel('k')
-    # plt.ylabel('Distortion')
-    # plt.title('The Elbow Method showing the optimal k')
-    # plt.show()
-
-    # 4. Calcular a distância entre o primeiro e o último ponto do gráfico (x0, y0) e (x1, y1)
 
     x0 = K[0] # primeiro ponto do gráfico
     y0 = distortions[0]  # primeiro ponto do gráfico 
