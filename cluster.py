@@ -55,13 +55,12 @@ try:
 
     # 4. Calcular a distância entre o primeiro e o último ponto do gráfico (x0, y0) e (x1, y1)
 
-    x0 = K[0]
-    y0 = distortions[0]
+    x0 = K[0] # primeiro ponto do gráfico
+    y0 = distortions[0]  # primeiro ponto do gráfico 
+    x1 = K[len(K)-1] # último ponto do gráfico
+    y1 = distortions[len(distortions)-1] # último ponto do gráfico
 
-    x1 = K[len(K)-1]
-    y1 = distortions[len(distortions)-1]
-
-    distancias = []
+    distancias = [] # lista vazia para receber as distancias entre os pontos e a reta
 
     for i in range(len(distortions)):
         x = K[i]
@@ -69,21 +68,16 @@ try:
         numerador = abs((y1 - y0) * x + (x0 - x1) * y + (x1 * y0 - x0 * y1))
         denominador = math.sqrt((y1 - y0) ** 2 + (x0 - x1) ** 2)
         distancias.append(numerador / denominador)
-
-    # print maior valor de distancias
-    print(max(distancias))
-    # print posição do maior valor de distancias 
-    print(distancias.index(max(distancias)))
-    # print valor de k
-    n_clusters = K[distancias.index(max(distancias))]
-    print(n_clusters)
+    
+    print(f" O maior valor de distancias é {max(distancias)}") # print maior valor de distancias
+    print(f" A posição do maior valor de distancias é {distancias.index(max(distancias))}") # print posição do maior valor de distancias 
+    n_clusters = K[distancias.index(max(distancias))] # n_clusters recebe o valor de k
+    print(f" O valor de k é {n_clusters}") # print valor de k
 
     # 5. Criar o modelo KMeans com o valor de k
     kmeans = KMeans(n_clusters=n_clusters, random_state=0).fit(fertility)
 
-    # centroides dos clusters
-    centroides = kmeans.cluster_centers_
-
+    centroides = kmeans.cluster_centers_ # obtem os centroides
 
     from pickle import dump
     # salvar o modelo para uso posterior
@@ -95,13 +89,12 @@ try:
     # carrega o modelo
     kmeans = load(open('C:\\Users\\Aluno\\Downloads\\kmeans.pkl', 'rb')) # rb = read binary
 
-    # aplica o modelo aos dados do novo paciente
-    resultado = kmeans.predict([novo_paciente])
-
-    # imprime o resultado
+    resultado = kmeans.predict([novo_paciente]) # aplica o modelo aos dados do novo paciente
+    print(resultado)
 
     print(f"O paciente {novo_paciente} pertence ao cluster {resultado[0]}")
-
+    print(f"Centroide do cluster: {centroides[resultado[0]]}") # exibe o centroide do cluster do novo paciente
+    
 
 
 except Exception as e:
