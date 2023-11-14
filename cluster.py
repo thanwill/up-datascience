@@ -4,12 +4,12 @@ from sklearn.cluster import KMeans
 from scipy.spatial.distance import cdist
 import numpy as np
 import math
+from pickle import dump
+from pickle import load
 
 try:
-    print('\033c') # limpa a tela
-
-    fertility = pd.read_csv('C:\\Users\\Aluno\\Downloads\\fertility_Diagnosis.txt', sep=',', header=None) # lê o arquivo csv
-
+    
+    fertility = pd.read_csv('C:\\Users\\Aluno\\Downloads\\fertility_Diagnosis.txt', names=header) # lê o arquivo csv
     fertility.drop(fertility.columns[9], axis=1, inplace=True) # remove a coluna 9
 
     # numero máximo de clusters que queremos testar é o numero de linhas do dataset
@@ -52,25 +52,18 @@ try:
 
     # 5. Criar o modelo KMeans com o valor de k
     kmeans = KMeans(n_clusters=n_clusters, random_state=0).fit(fertility)
-
     centroides = kmeans.cluster_centers_ # obtem os centroides
-
-    from pickle import dump
-    # salvar o modelo para uso posterior
     dump(kmeans, open('C:\\Users\\Aluno\\Downloads\\kmeans.pkl', 'wb')) # salva o modelo no arquivo kmeans.pkl (wb = write binary)
-
     novo_paciente = fertility.iloc[98] # dados de um novo paciente
-
-    from pickle import load
-    # carrega o modelo
     kmeans = load(open('C:\\Users\\Aluno\\Downloads\\kmeans.pkl', 'rb')) # rb = read binary
 
     resultado = kmeans.predict([novo_paciente]) # aplica o modelo aos dados do novo paciente
-    print(resultado)
 
+    print(resultado)
     print(f"O paciente {novo_paciente} pertence ao cluster {resultado[0]}")
     print(f"Centroide do cluster: {centroides[resultado[0]]}") # exibe o centroide do cluster do novo paciente
     
+    print(fertility['Output'].value_counts())
 
 
 except Exception as e:

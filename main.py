@@ -11,16 +11,6 @@ from pickle import load
 file = 'C:/Users/Aluno/Downloads/dados_normalizar.csv'
 
 try:
-
-    # 1. Ler o arquivo
-    # 2. Segmentar os dados em escalares e categóricos
-    # 3. Normalizar os dados
-    # 4. Recompor os dados normalizados em um dataframe
-    # 5. Salvar o normalizador para uso posterior (pickle)
-    # 6. Normalizar os dados de uma nova instância desconhecida (não vista pelo modelo)
-    # Mensagem para o commit: Normalização de dados com MinMaxScaler e pickle 
-
-    print('\033c') # limpa a tela
         
     serie = pd.read_csv(file, sep=';', encoding='latin1', usecols=['idade', 'altura', 'Peso', 'sexo']) # lê o arquivo csv
 
