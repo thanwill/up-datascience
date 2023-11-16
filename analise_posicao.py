@@ -44,8 +44,3 @@ plt.ylabel('Valores')
 plt.title('Gráfico de Controle')
 plt.legend()
 plt.show()
-
-
-
-
-
