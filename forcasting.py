@@ -37,7 +37,7 @@ try:
     variancia_vendas = df['Vendas'].var()
     desvio_padrao_vendas = df['Vendas'].std()
 
-    # cria um for para calcular a variância e o desvio padrão das vendas por mês e adiciona o valor em uma nova coluna no dfframe
+    # cria um for para calcular a variância e o desvio padrão das vendas por mês e adiciona o valor em uma nova coluna no dataframa
     for index, row in df.iterrows():
         #print(row['Mes'], row['vendas'])
         #df.loc[index, 'variancia'] = df[df['Mes'] == row['Mes']]['vendas'].var()
@@ -54,11 +54,6 @@ try:
     # exibe as linhas do dfframe para o mês com a maior venda e o mês com a menor venda e exporta para um arquivo html
     # print(df[df['vendas'] == df['vendas'].max()])
     # print(df[df['vendas'] == df['vendas'].min()])
-
-    # Divida os dados de vendas em três quartis
-    primeiro_quartil = df['Vendas'].quantile(0.25)
-    segundo_quartil = df['Vendas'].quantile(0.50)
-    terceiro_quartil = df['Vendas'].quantile(0.75)
 
     # Divida os dados de vendas em três quartis
     primeiro_quartil = df['Vendas'].quantile(0.25)
