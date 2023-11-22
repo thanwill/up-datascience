@@ -5,6 +5,19 @@ from statsmodels.tsa.arima.model import ARIMA
 
 
 df = pd.DataFrame( pd.read_csv('vendas_alterada.csv', sep=',') )
+# Mapeamento dos nomes dos meses para os números dos meses
+meses = {'Janeiro': 1, 'Fevereiro': 2, 'Marco': 3, 'Abril': 4, 'Maio': 5, 'Junho': 6, 'Julho': 7, 'Agosto': 8, 'Setembro': 9, 'Outubro': 10, 'Novembro': 11, 'Dezembro': 12}
+# Aplica o mapeamento à coluna 'Mes'
+df['Mes'] = df['Mes'].map(meses).astype(int)
+
+# Crie uma coluna 'Data' concatenando as colunas 'Ano' e 'Mes' e o dia 1
+df['Data'] = pd.to_datetime(df['Ano'].astype(str) + '-' + df['Mes'].astype(str) + '-' + str(1))
+# Certifique-se de ordenar o DataFrame pela coluna de data, se necessário
+df = df.sort_values('Data')
+# Defina 'Data' como o índice do DataFrame
+df.set_index('Data', inplace=True)
+# Defina a frequência do índice para mensal
+df = df.asfreq('MS')
 
 # Divida os dados de vendas em quatro quartis com variacoes de 0.25
 primeiro_quartil = df['Vendas'].quantile(0.25)
@@ -23,11 +36,6 @@ for index, row in df.iterrows():
     else:
         df.loc[index, 'Quartil'] = 4
 
-# Imprima os valores dos quartis
-print(f"Primeiro quartil: {primeiro_quartil}")
-print(f"Segundo quartil: {segundo_quartil}")
-print(f"Terceiro quartil: {terceiro_quartil}")
-print(f"Quarto quartil: {quarto_quartil}")
 
 # Criando um gráfico de caixa
 import matplotlib.pyplot as plt
@@ -36,31 +44,27 @@ plt.boxplot(df['Vendas'])
 plt.title('Vendas')
 plt.ylabel('Vendas')
 plt.xlabel('Vendas')
-#plt.show()
+##plt.show()
 
 # calcula os intervalos interquartil (Quadrantes) para as vendas
 import numpy as np
 q1 = np.percentile(df['Vendas'], 25)
 q3 = np.percentile(df['Vendas'], 75)
 iqr = q3 - q1
-print(f"Primeiro quartil: {q1}")
-print(f"Terceiro quartil: {q3}")
-print(f"Intervalo interquartil: {round(iqr, 2)}")
+
 
 # intervalos máximo e mínimo
 minimo = df['Vendas'].min()
 maximo = df['Vendas'].max()
-print(f"Valor mínimo: {minimo}")
-print(f"Valor máximo: {maximo}")
+
 
 # Criando o modelo
 modelo = ExponentialSmoothing(df['Vendas'], trend='mul', seasonal='mul', seasonal_periods=12).fit()
 # Criando previsões
-previsoes = modelo.forecast(12*5) # 12 meses
+previsoes = modelo.forecast(9) # 12 meses
+print("\nPrevisões de vendas para os próximos 9 meses:\n")
+print(previsoes)
 
-print(f"Previsões: \n{previsoes}")
-
-# Plotando o gráfico
 
 plt.figure(figsize=(10, 7))
 plt.plot(df['Vendas'], label='Vendas')
@@ -69,34 +73,53 @@ plt.title('Vendas')
 plt.ylabel('Vendas')
 plt.xlabel('Vendas')
 plt.legend(loc='best')
-#plt.show()
+##plt.show()
 
 ema = sum(abs(previsao - real) for previsao, real in zip(previsoes, df['Vendas'])) / len(previsoes)
-print(f"Erro médio absoluto: {round(ema, 2)}")
-
 epma = sum(abs((previsao - real) / real) for previsao, real in zip(previsoes, df['Vendas'])) / len(previsoes)
+
+# cria uma estrtura para imprimir os dados
+print("\n")
+print(f"Vendas: {round(df['Vendas'].sum(), 2)}")
+print(f"Vendas média: {round(df['Vendas'].mean(), 2)}")
+print(f"Vendas mediana: {round(df['Vendas'].median(), 2)}")
+print(f"Vendas variância: {round(df['Vendas'].var(), 2)}")
+print(f"Vendas desvio padrão: {round(df['Vendas'].std(), 2)}")
+
+print("\n")
+
+print(f"Primeiro quartil: {primeiro_quartil}")
+print(f"Segundo quartil: {segundo_quartil}")
+print(f"Terceiro quartil: {terceiro_quartil}")
+
+print("\n")
+print(f"Intervalo interquartil: {round(iqr, 2)}")
+print("\n")
+print(f"Valor mínimo: {minimo}")
+print(f"Valor máximo: {maximo}")
+print("\n")
+print(f"Erro médio absoluto: {round(ema, 2)}")
 print(f"Erro médio percentual absoluto: {round(epma, 2)}")
 
 # Criando um índice temporal mensal (assumindo que começa em janeiro de 2024)
-datas = pd.date_range(start='2024-01-01', periods=len(df['Vendas']), freq='M')
+dataframe = pd.DataFrame({'Vendas': df['Vendas']}, index=pd.date_range(start='2024-01-01', periods=len(df), freq='MS'))
+# Criando o modelo
+modelo_arina = ARIMA(dataframe, order=(1, 1, 1))
 
-# Criando um DataFrame com datas e vendas
-dataframe = pd.DataFrame({'Data': datas, 'Vendas': df['Vendas']})
-dataframe.set_index('Data', inplace=True)
+# Treinando o modelo
+modelo_arina_fit = modelo_arina.fit()
 
-# Ajustando o modelo ARIMA aos dados de vendas
-modelo_arima = ARIMA(dataframe['Vendas'], order=(5, 1, 0))  # Parâmetros do modelo ARIMA (p, d, q)
-resultado_arima = modelo_arima.fit()
+# Criando previsões
+previsoes_arima = modelo_arina_fit.forecast(9)[0]
 
-# Previsão para os próximos cinco anos (2028 a 2032)
-previsao_5_anos = resultado_arima.forecast(steps=60)  # 60 meses para os próximos cinco anos
+print("\nPrevisões de vendas para os próximos 9 meses:\n")
+print(previsoes_arima)
 
-# Gerando o gráfico
-plt.figure(figsize=(10, 6))
-plt.plot(dataframe.index, dataframe['Vendas'], label='Vendas Históricas')
-plt.plot(pd.date_range(start='2028-01-01', periods=60, freq='M'), previsao_5_anos, label='Previsão 2028-2032', linestyle='dashed', color='red')
-plt.title('Previsão de Vendas para os Próximos Cinco Anos (2028 a 2032)')
-plt.xlabel('Data')
+plt.figure(figsize=(10, 7))
+plt.plot(df['Vendas'], label='Vendas')
+plt.plot(previsoes_arima, label='Previsões')
+plt.title('Vendas')
 plt.ylabel('Vendas')
-plt.legend()
+plt.xlabel('Vendas')
+plt.legend(loc='best')
 plt.show()
