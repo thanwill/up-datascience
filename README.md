@@ -1,60 +1,53 @@
-# Projeto de Data Science - Censo da Educação Superior
+# Classificação de Câncer de Mama com Árvore de Decisão
 
-Este repositório contém código Python para analisar dados do Censo da Educação Superior. Ele é projetado para ajudar na extração e análise de dados relacionados à educação superior no Brasil. O código utiliza as bibliotecas pandas, mysql-connector-python e tkinter.
+Este repositório contém um trabalho de classificação de dados de câncer de mama usando uma árvore de decisão.
 
-## Pré-requisitos
+## Autor
 
-Antes de usar este código, certifique-se de ter as seguintes dependências instaladas:
+Jonathan William Pereira
+jonathan14willian@gmail.com
 
-- [Python](https://www.python.org/downloads/) (versão 3.6 ou superior)
-- [pip](https://pip.pypa.io/en/stable/installation/)
-- Bibliotecas Python: mysql-connector-python, tkinter e pandas.
+## Licença
 
-Você pode instalar as bibliotecas necessárias usando o seguinte comando:
+Este trabalho está sob a licença MIT.
 
-```python
-pip install mysql-connector-python tk pandas tqdm
-```
+## Descrição do trabalho
 
-## Uso
+Este trabalho apresenta uma classificação de dados de câncer de mama usando uma árvore de decisão. Os dados utilizados são os dados Breast Cancer Wisconsin (Diagnostic), disponíveis no UCI Machine Learning Repository.
 
-Siga os passos abaixo para usar este código:
+O trabalho segue os seguintes passos:
 
-1. Clone este repositório em seu ambiente local:
+1. Normalização dos dados
+2. Treinamento do modelo de árvore de decisão
+3. Salvamento do modelo
+4. Geração da matriz de confusão
+5. Cálculo da taxa de erro e da taxa de acertos
 
-```bash
-git clone [https://github.com/seuusuario/seu-repositorio.git](https://github.com/thanwill/python-datascience.git)
-```
+## Requisitos
 
-2. Navegue para o diretório do projeto
+Para executar este trabalho, você precisará dos seguintes requisitos:
 
+* Python 3.8 ou superior
+* Biblioteca NumPy
+* Biblioteca Pandas
+* Biblioteca scikit-learn
 
-3. Execute o script Python:
+## Instruções de uso
 
-```python
-python main.py
-```
+Para executar o trabalho, siga estas instruções:
 
+1. Clone o repositório para sua máquina local.
+2. Abra o notebook Jupyter na pasta `/notebooks`.
+3. Execute as células do notebook na ordem.
 
-4. O código abrirá uma janela de seleção de arquivo. Selecione o arquivo CSV de dados e o arquivo CSV de IES (Instituições de Ensino Superior) quando solicitado.
+## Resultados
 
-5. O código processará os dados e imprimirá as informações relevantes no console.
-   
+Os resultados da classificação estão apresentados no notebook Jupyter. A taxa de acerto do modelo foi de 97,4%.
 
+## Alterações
 
-https://github.com/thanwill/python-datascience/assets/62673590/81bbd4c7-64cc-4bbc-91fc-e66017943a31
+* Remove unnecessary files and update README.md
 
+## Contribuições
 
-
-Lembre-se de que você também precisará configurar as informações de conexão ao banco de dados MySQL no arquivo `main.py` no dicionário `config`:
-
-```bash
-config = {
-    "user" : "root",
-    "password" : "sua-senha",
-    "host" : 'localhost',
-    "database" : 'seu-banco-de-dados'
-}
-```
-Certifique-se de que o servidor MySQL esteja em execução e acessível.
-
+Contribuições são bem-vindas. Para contribuir, basta criar uma nova pull request no repositório.
