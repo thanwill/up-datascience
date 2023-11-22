@@ -5,7 +5,7 @@ Este repositório contém um trabalho de classificação de dados de câncer de 
 ## Autor
 
 Jonathan William Pereira
-jonathan14willian@gmail.com
+<jonathan14willian@gmail.com>
 
 ## Licença
 
