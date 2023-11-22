@@ -109,17 +109,16 @@ modelo_arina = ARIMA(dataframe, order=(1, 1, 1))
 # Treinando o modelo
 modelo_arina_fit = modelo_arina.fit()
 
-# Criando previsões
-previsoes_arima = modelo_arina_fit.forecast(9)[0]
+# Criando previsões para os próximos 5 anos (60 meses)
+previsoes_arima = modelo_arina_fit.forecast(steps=12*5)[0]
 
-print("\nPrevisões de vendas para os próximos 9 meses:\n")
-print(previsoes_arima)
 
 plt.figure(figsize=(10, 7))
 plt.plot(df['Vendas'], label='Vendas')
 plt.plot(previsoes_arima, label='Previsões')
 plt.title('Vendas')
 plt.ylabel('Vendas')
-plt.xlabel('Vendas')
+plt.xlabel('Anos')
 plt.legend(loc='best')
 plt.show()
+
