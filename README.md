@@ -1,19 +1,19 @@
-# Classificação de Câncer de Mama com Árvore de Decisão
+**Repositório de Classificação de Câncer de Mama com Árvore de Decisão**
 
-Este repositório contém um trabalho de classificação de dados de câncer de mama usando uma árvore de decisão.
+Este repositório contém um trabalho de classificação de dados de câncer de mama utilizando uma árvore de decisão.
 
 ## Autor
 
-Jonathan William Pereira
-<jonathan14willian@gmail.com>
+Willian
+<willian@email.com>
 
 ## Licença
 
 Este trabalho está sob a licença MIT.
 
-## Descrição do trabalho
+## Descrição do Trabalho
 
-Este trabalho apresenta uma classificação de dados de câncer de mama usando uma árvore de decisão. Os dados utilizados são os dados Breast Cancer Wisconsin (Diagnostic), disponíveis no UCI Machine Learning Repository.
+Este projeto apresenta uma classificação de dados de câncer de mama utilizando uma árvore de decisão. Os dados utilizados são provenientes do conjunto de dados Breast Cancer Wisconsin (Diagnostic), disponíveis no UCI Machine Learning Repository.
 
 O trabalho segue os seguintes passos:
 
@@ -32,7 +32,7 @@ Para executar este trabalho, você precisará dos seguintes requisitos:
 * Biblioteca Pandas
 * Biblioteca scikit-learn
 
-## Instruções de uso
+## Instruções de Uso
 
 Para executar o trabalho, siga estas instruções:
 
@@ -46,7 +46,7 @@ Os resultados da classificação estão apresentados no notebook Jupyter. A taxa
 
 ## Alterações
 
-* Remove unnecessary files and update README.md
+* Remover arquivos desnecessários e atualizar README.md
 
 ## Contribuições
 
