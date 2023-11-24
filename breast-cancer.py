@@ -73,13 +73,20 @@ try:
     # Gere a matriz de confusão
     cm = confusion_matrix(y_test, y_pred)
     disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=tree.classes_)
-    disp.plot()
 
     # Salve a matriz de confusão    
     plt.savefig('matriz_confusao.png')
 
     # Exiba a matriz de confusão
-    plt.show()    
+    #plt.show()    
+
+    # Exiba a acurácia do modelo
+    accuracy = tree.score(X_test, y_test)
+    accuracy *= 100
+    print("Acurácia: ", round(accuracy, 2), "%")
+    disp.plot()
+
+
 
 except FileNotFoundError:
     print('Arquivo não encontrado')

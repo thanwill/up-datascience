@@ -4,8 +4,9 @@ Este repositório contém um trabalho de classificação de dados de câncer de 
 
 ## Autor
 
-Willian
-<willian@email.com>
+Jonathan Willian Pereira
+Estudante de Bacharelado em Sistemas da Informação na Universidade Positivo - Campus Osório
+LinkedIn: https://www.linkedin.com/in/jonathanwilliam/
 
 ## Licença
 
@@ -41,12 +42,12 @@ Para executar o trabalho, siga estas instruções em sua máquina local:
 
 1. Clone este repositório em sua máquina local com `git clone https://github.com/thanwill/up-datascience.git`
 2. Instale os requisitos listados acima com `pip install -r requirements.txt` 
-
+3. Execute o arquivo `breast-cancer.py` com `python breast-cancer.py` ou `python3 breast-cancer.py`
 
 
 ## Resultados
 
-Os resultados da classificação estão apresentados no notebook Jupyter. A taxa de acerto do modelo foi de 97,4%.
+Os resultados da classificação estão apresentados no notebook Jupyter. A taxa de acerto do modelo foi de 74,14 %.
 
 ## Alterações
 
