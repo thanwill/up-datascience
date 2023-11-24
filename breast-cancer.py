@@ -16,8 +16,8 @@ try:
     macPath = '/Users/jonathan/Downloads/breast-cancer.csv'
     df = pd.read_csv(macPath, sep=',')
 
-    # print("\nDados originais")
-    # print(df.head())
+    print("\nDados originais")
+    print(df.head())
 
     # Crie uma cópia do DataFrame
     df_normalized = df.copy()
@@ -29,8 +29,8 @@ try:
     # Converta variáveis categóricas em variáveis dummy/indicadoras
     df_normalized = pd.get_dummies(df_normalized)
 
-    # print("\nDados normalizados")
-    # print(df_normalized.head())
+    print("\nDados normalizados")
+    print(df_normalized.head())
 
     # Crie o normalizador
     scaler = MinMaxScaler()
@@ -41,12 +41,8 @@ try:
     # Adicione a coluna 'Class' de volta ao DataFrame
     df_normalized['Class'] = Class
 
-    # print("\nDados normalizados e com a coluna 'Class' de volta")
-    # print(df_normalized.head())
-
-    print("Linha 41: Dados normalizados e com a coluna 'Class' de volta")
-
-    
+    print("\nDados normalizados e com a coluna 'Class' de volta")
+    print(df_normalized.head())
 
     # Separe os dados em recursos (X) e alvo (y)
     X = df_normalized.drop('Class', axis=1)
@@ -85,8 +81,6 @@ try:
     accuracy *= 100
     print("Acurácia: ", round(accuracy, 2), "%")
     disp.plot()
-
-
 
 except FileNotFoundError:
     print('Arquivo não encontrado')
