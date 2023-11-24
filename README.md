@@ -23,22 +23,26 @@ O trabalho segue os seguintes passos:
 4. Geração da matriz de confusão
 5. Cálculo da taxa de erro e da taxa de acertos
 
-## Requisitos
+## Importacões e Requisitos
 
 Para executar este trabalho, você precisará dos seguintes requisitos:
 
-* Python 3.8 ou superior
-* Biblioteca NumPy
-* Biblioteca Pandas
-* Biblioteca scikit-learn
+* Python 3.7.3
+* pandas
+* os
+* scikit-learn
+* matplotlib
+* pickle-mixin
+
 
 ## Instruções de Uso
 
-Para executar o trabalho, siga estas instruções:
+Para executar o trabalho, siga estas instruções em sua máquina local:
 
-1. Clone o repositório para sua máquina local.
-2. Abra o notebook Jupyter na pasta `/notebooks`.
-3. Execute as células do notebook na ordem.
+1. Clone este repositório em sua máquina local com `git clone https://github.com/thanwill/up-datascience.git`
+2. Instale os requisitos listados acima com `pip install -r requirements.txt` 
+
+
 
 ## Resultados
 

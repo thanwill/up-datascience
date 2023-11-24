@@ -1,11 +1,16 @@
 import pandas as pd
+import os
 from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+import pickle
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 try:
 
     # limpa a tela do terminal
-    import os
+    
     os.system('cls' if os.name == 'nt' else 'clear')
 
     macPath = '/Users/jonathan/Downloads/breast-cancer.csv'
@@ -41,8 +46,7 @@ try:
 
     print("Linha 41: Dados normalizados e com a coluna 'Class' de volta")
 
-    from sklearn.model_selection import train_test_split
-    from sklearn.tree import DecisionTreeClassifier
+    
 
     # Separe os dados em recursos (X) e alvo (y)
     X = df_normalized.drop('Class', axis=1)
@@ -58,12 +62,10 @@ try:
     tree.fit(X_train, y_train)
     print("Linha 58: Modelo treinado")
 
-    # Salve o modelo
-    import pickle
+    # Salve o modelo    
     pickle.dump(tree, open('modelo.sav', 'wb'))
     print("Linha 66: Modelo salvo")
 
-    from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
     # Use o modelo treinado para fazer previsões no conjunto de teste
     y_pred = tree.predict(X_test)
