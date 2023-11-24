@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as plt
 
 try:
 
@@ -62,6 +63,21 @@ try:
     pickle.dump(tree, open('modelo.sav', 'wb'))
     print("Linha 66: Modelo salvo")
 
+    from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+
+    # Use o modelo treinado para fazer previsões no conjunto de teste
+    y_pred = tree.predict(X_test)
+
+    # Gere a matriz de confusão
+    cm = confusion_matrix(y_test, y_pred)
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=tree.classes_)
+    disp.plot()
+
+    # Salve a matriz de confusão    
+    plt.savefig('matriz_confusao.png')
+
+    # Exiba a matriz de confusão
+    plt.show()    
 
 
 
