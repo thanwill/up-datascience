@@ -10,8 +10,8 @@ try:
     macPath = '/Users/jonathan/Downloads/breast-cancer.csv'
     df = pd.read_csv(macPath, sep=',')
 
-    print("\nDados originais")
-    print(df.head())
+    # print("\nDados originais")
+    # print(df.head())
 
     # Crie uma cópia do DataFrame
     df_normalized = df.copy()
@@ -23,8 +23,8 @@ try:
     # Converta variáveis categóricas em variáveis dummy/indicadoras
     df_normalized = pd.get_dummies(df_normalized)
 
-    print("\nDados normalizados")
-    print(df_normalized.head())
+    # print("\nDados normalizados")
+    # print(df_normalized.head())
 
     # Crie o normalizador
     scaler = MinMaxScaler()
@@ -35,8 +35,33 @@ try:
     # Adicione a coluna 'Class' de volta ao DataFrame
     df_normalized['Class'] = Class
 
-    print("\nDados normalizados e com a coluna 'Class' de volta")
-    print(df_normalized.head())     
+    # print("\nDados normalizados e com a coluna 'Class' de volta")
+    # print(df_normalized.head())
+
+    print("Linha 41: Dados normalizados e com a coluna 'Class' de volta")
+
+    from sklearn.model_selection import train_test_split
+    from sklearn.tree import DecisionTreeClassifier
+
+    # Separe os dados em recursos (X) e alvo (y)
+    X = df_normalized.drop('Class', axis=1)
+    y = df_normalized['Class']
+
+    # Divida os dados em conjuntos de treinamento e teste
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Crie uma instância da classe DecisionTreeClassifier
+    tree = DecisionTreeClassifier()
+
+    # Treine o modelo
+    tree.fit(X_train, y_train)
+    print("Linha 58: Modelo treinado")
+
+    # Salve o modelo
+    import pickle
+    pickle.dump(tree, open('modelo.sav', 'wb'))
+    print("Linha 66: Modelo salvo")
+
 
 
 
